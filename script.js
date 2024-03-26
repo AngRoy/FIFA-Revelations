@@ -13,9 +13,30 @@ function decrement() {
   }
 }
 
+
+fetch('https://script.google.com/macros/s/AKfycbwtS-dKkGeR6ihR1Ct_00LyC8WpKQXj84TsDtzWLtY8zqo6q0T7av-qqG0dpbQuQXUI6Q/exec')
+  .then(response => response.json())
+  .then(data => {
+    // Iterate through the events to find the count for "Fifa"
+    const events = data.events;
+    let fifaCount = 0;
+    for (let i = 0; i < events.length; i++) {
+      if (events[i].eventName === "Fifa") {
+        fifaCount = events[i].count;
+        break; // Once found, no need to continue searching
+      }
+    }
+    
+    console.log("Count for Fifa:", fifaCount);
+  })
+  .catch(error => console.error('Error fetching data:', error));
+
+
+
+
 function startIncrementing() {
   incrementInterval = setInterval(() => {
-    if (count < 1000) {
+    if (count < fifaCount) {
       increment();
     } else {
       clearInterval(incrementInterval);
