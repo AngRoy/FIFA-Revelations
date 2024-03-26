@@ -13,13 +13,14 @@ function decrement() {
   }
 }
 
+let fifaCount = 0;
 
 fetch('https://script.google.com/macros/s/AKfycbwtS-dKkGeR6ihR1Ct_00LyC8WpKQXj84TsDtzWLtY8zqo6q0T7av-qqG0dpbQuQXUI6Q/exec')
   .then(response => response.json())
   .then(data => {
     // Iterate through the events to find the count for "Fifa"
     const events = data.events;
-    var fifaCount = 0;
+    
     for (let i = 0; i < events.length; i++) {
       if (events[i].eventName === "Fifa") {
         fifaCount = events[i].count;
