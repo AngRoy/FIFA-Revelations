@@ -1,5 +1,33 @@
 let count = 0;
 let incrementInterval;
+let fifaCount = 0;
+
+fetch('https://script.google.com/macros/s/AKfycbwtS-dKkGeR6ihR1Ct_00LyC8WpKQXj84TsDtzWLtY8zqo6q0T7av-qqG0dpbQuQXUI6Q/exec')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (!data || !Array.isArray(data)) {
+      throw new Error('Data is not in the expected format');
+    }
+    const events = data;
+    
+    for (let i = 0; i < events.length; i++) {
+      if (events[i].eventName === "Fifa") {
+        fifaCount = events[i].count;
+        break;
+      }
+    }
+    console.log("Count for Fifa:", fifaCount);
+    // Once you have the count, you can start incrementing
+    startIncrementing(fifaCount);
+  })
+  .catch(error => console.error('Error fetching or processing data:', error));
+
+
 
 function increment() {
   count++;
@@ -12,28 +40,6 @@ function decrement() {
     document.getElementById("counter").innerText = count;
   }
 }
-
-let fifaCount = 0;
-
-fetch('https://script.google.com/macros/s/AKfycbwtS-dKkGeR6ihR1Ct_00LyC8WpKQXj84TsDtzWLtY8zqo6q0T7av-qqG0dpbQuQXUI6Q/exec')
-  .then(response => response.json())
-  .then(data => {
-    // Iterate through the events to find the count for "Fifa"
-    const events = data.events;
-    
-    for (let i = 0; i < events.length; i++) {
-      if (events[i].eventName === "Fifa") {
-        fifaCount = events[i].count;
-        break; // Once found, no need to continue searching
-      }
-    }
-    
-    console.log("Count for Fifa:", fifaCount);
-  })
-  .catch(error => console.error('Error fetching data:', error));
-
-
-
 
 function startIncrementing() {
   incrementInterval = setInterval(() => {
@@ -55,7 +61,6 @@ let observer = new IntersectionObserver((entries) => {
   });
 });
 observer.observe(counterContainer);
-
 var num1 = 0;
 var num2 = 0;
 var num3 = 0;
@@ -138,9 +143,3 @@ document.getElementById("closeBtnt").addEventListener("click", function () {
   clearInterval(timer);
   document.getElementById("overlayt").style.display = "none";
 });
-
-
-
-
-
-
