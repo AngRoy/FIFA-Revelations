@@ -19,7 +19,7 @@ fetch('https://script.google.com/macros/s/AKfycbwtS-dKkGeR6ihR1Ct_00LyC8WpKQXj84
   .then(data => {
     // Iterate through the events to find the count for "Fifa"
     const events = data.events;
-    let fifaCount = 0;
+    var fifaCount = 0;
     for (let i = 0; i < events.length; i++) {
       if (events[i].eventName === "Fifa") {
         fifaCount = events[i].count;
